@@ -23,8 +23,8 @@ ORDOS_ID=ordos-1
 ORDOS_FOLDER=.ordos
 ORDOS_VER=v0.0.1-goa
 ORDOS_REPO=https://github.com/terra-money/alliance
-ORDOS_GENESIS=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/testnet/goa/genesis.json
-ORDOS_ADDRBOOK=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/testnet/goa/addrbook.json
+ORDOS_GENESIS=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/testnet/goa/ordos/genesis.json
+ORDOS_ADDRBOOK=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/testnet/goa/ordos/addrbook.json
 ORDOS_DENOM=uord
 ORDOS_PORT=01
 
