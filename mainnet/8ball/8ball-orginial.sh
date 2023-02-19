@@ -21,8 +21,6 @@ EBL_WALLET=wallet
 EBL=8ball
 EBL_ID=eightball-1
 EBL_FOLDER=.8ball
-EBL_VER=v0.34.24
-EBL_REPO=https://github.com/sxlmnwb/8ball
 EBL_GENESIS=https://snap.nodexcapital.com/8ball/genesis.json
 EBL_ADDRBOOK=https://snap.nodexcapital.com/8ball/addrbook.json
 EBL_DENOM=uebl
@@ -32,8 +30,6 @@ echo "export EBL_WALLET=${EBL_WALLET}" >> $HOME/.bash_profile
 echo "export EBL=${EBL}" >> $HOME/.bash_profile
 echo "export EBL_ID=${EBL_ID}" >> $HOME/.bash_profile
 echo "export EBL_FOLDER=${EBL_FOLDER}" >> $HOME/.bash_profile
-echo "export EBL_VER=${EBL_VER}" >> $HOME/.bash_profile
-echo "export EBL_REPO=${EBL_REPO}" >> $HOME/.bash_profile
 echo "export EBL_GENESIS=${EBL_GENESIS}" >> $HOME/.bash_profile
 echo "export EBL_ADDRBOOK=${EBL_ADDRBOOK}" >> $HOME/.bash_profile
 echo "export EBL_DENOM=${EBL_DENOM}" >> $HOME/.bash_profile
@@ -51,30 +47,11 @@ echo -e "NODE CHAIN ID  : \e[1m\e[31m$EBL_ID\e[0m"
 echo -e "NODE PORT      : \e[1m\e[31m$EBL_PORT\e[0m"
 echo ""
 
-# Update
-sudo apt update && sudo apt upgrade -y
-
-# Package
-sudo apt install make build-essential gcc git jq chrony lz4 -y
-
-# Install GO
-ver="1.19.5"
-cd $HOME
-wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
-sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
-rm "go$ver.linux-amd64.tar.gz"
-echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
-source ~/.bash_profile
-go version
-
 # Get mainnet version of 8ball
 cd $HOME
 rm -rf $EBL
-git clone $EBL_REPO
-cd $EBL
-git checkout $EBL_VER
-go build -o $EBL ./cmd/eightballd
+wget https://8ball.info/8ball.tar.gz
+tar -xvf 8ball.tar.gz
 sudo mv $EBL /usr/bin/
 
 # Init generation

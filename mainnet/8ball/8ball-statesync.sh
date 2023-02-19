@@ -23,8 +23,6 @@ EBL_ID=eightball-1
 EBL_FOLDER=.8ball
 EBL_VER=v0.34.24
 EBL_REPO=https://github.com/sxlmnwb/8ball
-EBL_GENESIS=https://snap.nodexcapital.com/8ball/genesis.json
-EBL_ADDRBOOK=https://snap.nodexcapital.com/8ball/addrbook.json
 EBL_DENOM=uebl
 EBL_PORT=23
 
@@ -34,8 +32,6 @@ echo "export EBL_ID=${EBL_ID}" >> $HOME/.bash_profile
 echo "export EBL_FOLDER=${EBL_FOLDER}" >> $HOME/.bash_profile
 echo "export EBL_VER=${EBL_VER}" >> $HOME/.bash_profile
 echo "export EBL_REPO=${EBL_REPO}" >> $HOME/.bash_profile
-echo "export EBL_GENESIS=${EBL_GENESIS}" >> $HOME/.bash_profile
-echo "export EBL_ADDRBOOK=${EBL_ADDRBOOK}" >> $HOME/.bash_profile
 echo "export EBL_DENOM=${EBL_DENOM}" >> $HOME/.bash_profile
 echo "export EBL_PORT=${EBL_PORT}" >> $HOME/.bash_profile
 source $HOME/.bash_profile
@@ -89,9 +85,8 @@ SEEDS=""
 sed -i -e "s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/$EBL_FOLDER/config/config.toml
 sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|" $HOME/$EBL_FOLDER/config/config.toml
 
-# Download genesis and addrbook
-curl -Ls $EBL_GENESIS > $HOME/$EBL_FOLDER/config/genesis.json
-curl -Ls $EBL_ADDRBOOK > $HOME/$EBL_FOLDER/config/addrbook.json
+# Create file genesis.json
+touch $HOME/$EBL_FOLDER/config/genesis.json
 
 # Set Port
 sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:${EBL_PORT}658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:${EBL_PORT}657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:${EBL_PORT}060\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:${EBL_PORT}656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":${EBL_PORT}660\"%" $HOME/$EBL_FOLDER/config/config.toml
@@ -101,7 +96,7 @@ sed -i.bak -e "s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:${E
 pruning="custom"
 pruning_keep_recent="100"
 pruning_keep_every="0"
-pruning_interval="19"
+pruning_interval="50"
 sed -i -e "s/^pruning *=.*/pruning = \"$pruning\"/" $HOME/$EBL_FOLDER/config/app.toml
 sed -i -e "s/^pruning-keep-recent *=.*/pruning-keep-recent = \"$pruning_keep_recent\"/" $HOME/$EBL_FOLDER/config/app.toml
 sed -i -e "s/^pruning-keep-every *=.*/pruning-keep-every = \"$pruning_keep_every\"/" $HOME/$EBL_FOLDER/config/app.toml
@@ -110,10 +105,27 @@ sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $
 # Set minimum gas price
 sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.025$EBL_DENOM\"/" $HOME/$EBL_FOLDER/config/app.toml
 
-# Enable snapshots
-sed -i -e "s/^snapshot-interval *=.*/snapshot-interval = \"2000\"/" $HOME/$EBL_FOLDER/config/app.toml
-$EBL tendermint unsafe-reset-all --home $HOME/$EBL_FOLDER --keep-addr-book
-curl -L https://snap.nodexcapital.com/8ball/8ball-latest.tar.lz4 | tar -Ilz4 -xf - -C $HOME/$EBL_FOLDER
+# Set config snapshot
+sed -i -e "s/^snapshot-interval *=.*/snapshot-interval = \"1000\"/" $HOME/$EBL_FOLDER/config/app.toml
+sed -i -e "s/^snapshot-keep-recent *=.*/snapshot-keep-recent = \"2\"/" $HOME/$EBL_FOLDER/config/app.toml
+
+# Enable state sync
+$EBL tendermint unsafe-reset-all --home $HOME/$EBL_FOLDER
+
+SNAP_RPC="https://rpc.8ball.info:443"
+
+LATEST_HEIGHT=$(curl -s $SNAP_RPC/block | jq -r .result.block.header.height); \
+BLOCK_HEIGHT=$((LATEST_HEIGHT - 2000)); \
+TRUST_HASH=$(curl -s "$SNAP_RPC/block?height=$BLOCK_HEIGHT" | jq -r .result.block_id.hash)
+
+echo ""
+echo -e "\e[1m\e[31m[!]\e[0m HEIGHT : \e[1m\e[31m$LATEST_HEIGHT\e[0m BLOCK : \e[1m\e[31m$BLOCK_HEIGHT\e[0m HASH : \e[1m\e[31m$TRUST_HASH\e[0m"
+echo ""
+
+sed -i.bak -E "s|^(enable[[:space:]]+=[[:space:]]+).*$|\1true| ; \
+s|^(rpc_servers[[:space:]]+=[[:space:]]+).*$|\1\"$SNAP_RPC,$SNAP_RPC\"| ; \
+s|^(trust_height[[:space:]]+=[[:space:]]+).*$|\1$BLOCK_HEIGHT| ; \
+s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"|" $HOME/$EBL_FOLDER/config/config.toml
 
 # Create Service
 sudo tee /etc/systemd/system/$EBL.service > /dev/null <<EOF

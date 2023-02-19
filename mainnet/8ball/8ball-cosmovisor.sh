@@ -12,13 +12,14 @@ echo "▒ ▒▓▒ ▒ ░▒▒ ░ ░▓ ░░ ▒░▓  ░░ ▒░   �
 echo "░ ░▒  ░ ░░░   ░▒ ░░ ░ ▒  ░░  ░      ░░ ░░   ░ ▒░  ▒ ░ ░   ░    ░ ";
 echo "░  ░  ░   ░    ░    ░ ░   ░      ░      ░   ░ ░   ░   ░ ░        ";
 echo "      ░   ░    ░      ░  ░       ░            ░     ░          ░ ";
-echo "          Auto Installer eightball-1 For 8ball v0.34.24          ";
+echo "   Auto Installer eightball-1 {cosmovisor} For 8ball v0.34.24    ";
 echo -e "\e[0m"
 sleep 1
 
 # Variable
 EBL_WALLET=wallet
 EBL=8ball
+BINARY=cosmovisor
 EBL_ID=eightball-1
 EBL_FOLDER=.8ball
 EBL_VER=v0.34.24
@@ -30,6 +31,7 @@ EBL_PORT=23
 
 echo "export EBL_WALLET=${EBL_WALLET}" >> $HOME/.bash_profile
 echo "export EBL=${EBL}" >> $HOME/.bash_profile
+echo "export BINARY=${BINARY}" >> $HOME/.bash_profile
 echo "export EBL_ID=${EBL_ID}" >> $HOME/.bash_profile
 echo "export EBL_FOLDER=${EBL_FOLDER}" >> $HOME/.bash_profile
 echo "export EBL_VER=${EBL_VER}" >> $HOME/.bash_profile
@@ -75,7 +77,15 @@ git clone $EBL_REPO
 cd $EBL
 git checkout $EBL_VER
 go build -o $EBL ./cmd/eightballd
-sudo mv $EBL /usr/bin/
+go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.4.0
+
+# Prepare binaries for Cosmovisor
+mkdir -p $HOME/$EBL_FOLDER/$BINARY/genesis/bin
+mv $EBL $HOME/$EBL_FOLDER/$BINARY/genesis/bin/
+
+# Create application symlinks
+ln -s $HOME/$EBL_FOLDER/$BINARY/genesis $HOME/$EBL_FOLDER/$BINARY/current
+sudo ln -s $HOME/$EBL_FOLDER/$BINARY/current/bin/$EBL /usr/bin/$EBL
 
 # Init generation
 $EBL config chain-id $EBL_ID
@@ -116,31 +126,35 @@ $EBL tendermint unsafe-reset-all --home $HOME/$EBL_FOLDER --keep-addr-book
 curl -L https://snap.nodexcapital.com/8ball/8ball-latest.tar.lz4 | tar -Ilz4 -xf - -C $HOME/$EBL_FOLDER
 
 # Create Service
-sudo tee /etc/systemd/system/$EBL.service > /dev/null <<EOF
+sudo tee /etc/systemd/system/$EBL.service > /dev/null << EOF
 [Unit]
-Description=$EBL
+Description=$BINARY
 After=network-online.target
 
 [Service]
 User=$USER
-ExecStart=$(which $EBL) start
+ExecStart=$(which $BINARY) run start
 Restart=on-failure
-RestartSec=3
-LimitNOFILE=4096
+RestartSec=10
+LimitNOFILE=65535
+Environment="DAEMON_HOME=$HOME/$EBL_FOLDER"
+Environment="DAEMON_NAME=$EBL"
+Environment="UNSAFE_SKIP_BACKUP=true"
 
 [Install]
 WantedBy=multi-user.target
 EOF
 
 # Register And Start Service
+sudo systemctl start $EBL
 sudo systemctl daemon-reload
 sudo systemctl enable $EBL
-sudo systemctl start $EBL
 
 echo -e "\e[1m\e[31mSETUP FINISHED\e[0m"
 echo ""
-echo -e "CHECK RUNNING LOGS : \e[1m\e[31mjournalctl -fu $EBL -o cat\e[0m"
-echo -e "CHECK LOCAL STATUS : \e[1m\e[31mcurl -s localhost:${EBL_PORT}657/status | jq .result.sync_info\e[0m"
+echo -e "CHECK STATUS BINARY : \e[1m\e[31msystemctl status $EBL\e[0m"
+echo -e "CHECK RUNNING LOGS  : \e[1m\e[31mjournalctl -fu $EBL -o cat\e[0m"
+echo -e "CHECK LOCAL STATUS  : \e[1m\e[31mcurl -s localhost:${EBL_PORT}657/status | jq .result.sync_info\e[0m"
 echo ""
 
 # End
