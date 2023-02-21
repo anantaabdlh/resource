@@ -12,7 +12,7 @@ echo "▒ ▒▓▒ ▒ ░▒▒ ░ ░▓ ░░ ▒░▓  ░░ ▒░   �
 echo "░ ░▒  ░ ░░░   ░▒ ░░ ░ ▒  ░░  ░      ░░ ░░   ░ ▒░  ▒ ░ ░   ░    ░ ";
 echo "░  ░  ░   ░    ░    ░ ░   ░      ░      ░   ░ ░   ░   ░ ░        ";
 echo "      ░   ░    ░      ░  ░       ░            ░     ░          ░ ";
-echo "     Auto Installer corrino-1 For Alliance (terra) v0.0.1-goa    ";
+echo "     Auto Installer corrino-1 For Alliance (terra) v0.1.0-goa    ";
 echo -e "\e[0m"
 sleep 1
 
@@ -21,7 +21,7 @@ CORRINO_WALLET=wallet
 CORRINO=corrinod
 CORRINO_ID=corrino-1
 CORRINO_FOLDER=.corrino
-CORRINO_VER=v0.0.1-goa
+CORRINO_VER=v0.1.0-goa
 CORRINO_REPO=https://github.com/terra-money/alliance
 CORRINO_DENOM=ucor
 CORRINO_PORT=03

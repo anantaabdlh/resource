@@ -12,7 +12,7 @@ echo "▒ ▒▓▒ ▒ ░▒▒ ░ ░▓ ░░ ▒░▓  ░░ ▒░   �
 echo "░ ░▒  ░ ░░░   ░▒ ░░ ░ ▒  ░░  ░      ░░ ░░   ░ ▒░  ▒ ░ ░   ░    ░ ";
 echo "░  ░  ░   ░    ░    ░ ░   ░      ░      ░   ░ ░   ░   ░ ░        ";
 echo "      ░   ░    ░      ░  ░       ░            ░     ░          ░ ";
-echo "    Auto Installer harkonnen-1 For Alliance (terra) v0.0.1-goa   ";
+echo "    Auto Installer harkonnen-1 For Alliance (terra) v0.1.0-goa   ";
 echo -e "\e[0m"
 sleep 1
 
@@ -21,7 +21,7 @@ HARKONNEN_WALLET=wallet
 HARKONNEN=harkonnend
 HARKONNEN_ID=harkonnen-1
 HARKONNEN_FOLDER=.harkonnen
-HARKONNEN_VER=v0.0.1-goa
+HARKONNEN_VER=v0.1.0-goa
 HARKONNEN_REPO=https://github.com/terra-money/alliance
 HARKONNEN_DENOM=uhar
 HARKONNEN_PORT=02

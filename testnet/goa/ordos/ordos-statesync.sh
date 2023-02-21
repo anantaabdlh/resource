@@ -12,7 +12,7 @@ echo "▒ ▒▓▒ ▒ ░▒▒ ░ ░▓ ░░ ▒░▓  ░░ ▒░   �
 echo "░ ░▒  ░ ░░░   ░▒ ░░ ░ ▒  ░░  ░      ░░ ░░   ░ ▒░  ▒ ░ ░   ░    ░ ";
 echo "░  ░  ░   ░    ░    ░ ░   ░      ░      ░   ░ ░   ░   ░ ░        ";
 echo "      ░   ░    ░      ░  ░       ░            ░     ░          ░ ";
-echo "      Auto Installer ordos-1 For Alliance (terra) v0.0.1-goa     ";
+echo "      Auto Installer ordos-1 For Alliance (terra) v0.1.0-goa     ";
 echo -e "\e[0m"
 sleep 1
 
@@ -21,7 +21,7 @@ ORDOS_WALLET=wallet
 ORDOS=ordosd
 ORDOS_ID=ordos-1
 ORDOS_FOLDER=.ordos
-ORDOS_VER=v0.0.1-goa
+ORDOS_VER=v0.1.0-goa
 ORDOS_REPO=https://github.com/terra-money/alliance
 ORDOS_DENOM=uord
 ORDOS_PORT=01

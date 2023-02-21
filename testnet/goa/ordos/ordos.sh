@@ -12,7 +12,7 @@ echo "▒ ▒▓▒ ▒ ░▒▒ ░ ░▓ ░░ ▒░▓  ░░ ▒░   �
 echo "░ ░▒  ░ ░░░   ░▒ ░░ ░ ▒  ░░  ░      ░░ ░░   ░ ▒░  ▒ ░ ░   ░    ░ ";
 echo "░  ░  ░   ░    ░    ░ ░   ░      ░      ░   ░ ░   ░   ░ ░        ";
 echo "      ░   ░    ░      ░  ░       ░            ░     ░          ░ ";
-echo "      Auto Installer ordos-1 For Alliance (terra) v0.0.1-goa     ";
+echo "      Auto Installer ordos-1 For Alliance (terra) v0.1.0-goa     ";
 echo -e "\e[0m"
 sleep 1
 
@@ -21,7 +21,7 @@ ORDOS_WALLET=wallet
 ORDOS=ordosd
 ORDOS_ID=ordos-1
 ORDOS_FOLDER=.ordos
-ORDOS_VER=v0.0.1-goa
+ORDOS_VER=v0.1.0-goa
 ORDOS_REPO=https://github.com/terra-money/alliance
 ORDOS_GENESIS=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/testnet/goa/ordos/genesis.json
 ORDOS_ADDRBOOK=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/testnet/goa/ordos/addrbook.json
@@ -109,10 +109,6 @@ sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $
 
 # Set minimum gas price
 sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.001$ORDOS_DENOM\"/" $HOME/$ORDOS_FOLDER/config/app.toml
-
-# Enable snapshots
-$ORDOS tendermint unsafe-reset-all --home $HOME/$ORDOS_FOLDER --keep-addr-book
-curl -o - -L https://snap-ordos.hexskrt.net/ordos-snapshot.tar.lz4 | tar -Ilz4 -xf - -C $HOME/$ORDOS_FOLDER
 
 # Create Service
 sudo tee /etc/systemd/system/$ORDOS.service > /dev/null <<EOF

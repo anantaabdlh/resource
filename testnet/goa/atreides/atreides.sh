@@ -12,7 +12,7 @@ echo "▒ ▒▓▒ ▒ ░▒▒ ░ ░▓ ░░ ▒░▓  ░░ ▒░   �
 echo "░ ░▒  ░ ░░░   ░▒ ░░ ░ ▒  ░░  ░      ░░ ░░   ░ ▒░  ▒ ░ ░   ░    ░ ";
 echo "░  ░  ░   ░    ░    ░ ░   ░      ░      ░   ░ ░   ░   ░ ░        ";
 echo "      ░   ░    ░      ░  ░       ░            ░     ░          ░ ";
-echo "    Auto Installer atreides-1 For Alliance (terra) v0.0.1-goa    ";
+echo "    Auto Installer atreides-1 For Alliance (terra) v0.1.0-goa    ";
 echo -e "\e[0m"
 sleep 1
 
@@ -21,7 +21,7 @@ ATREIDES_WALLET=wallet
 ATREIDES=atreidesd
 ATREIDES_ID=atreides-1
 ATREIDES_FOLDER=.atreides
-ATREIDES_VER=v0.0.1-goa
+ATREIDES_VER=v0.1.0-goa
 ATREIDES_REPO=https://github.com/terra-money/alliance
 ATREIDES_GENESIS=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/testnet/goa/atreides/genesis.json
 ATREIDES_ADDRBOOK=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/testnet/goa/atreides/addrbook.json
