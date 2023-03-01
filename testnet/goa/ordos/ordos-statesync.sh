@@ -81,7 +81,7 @@ $ORDOS init $ORDOS_NODENAME --chain-id $ORDOS_ID
 
 # Set peers and seeds
 PEERS="3f636d4bc99a309797bbaef5934fc9c3b8f3070c@146.190.81.135:01656"
-SEEDS="1772a7a48530cc8adc447fdb7b720c064411667b@goa-seeds.lavenderfive.com:11656"
+SEEDS=""
 sed -i -e "s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/$ORDOS_FOLDER/config/config.toml
 sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|" $HOME/$ORDOS_FOLDER/config/config.toml
 
@@ -106,8 +106,8 @@ sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $
 sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.001$ORDOS_DENOM\"/" $HOME/$ORDOS_FOLDER/config/app.toml
 
 # Set config snapshot
-sed -i -e "s/^snapshot-interval *=.*/snapshot-interval = \"1000\"/" $HOME/$ORDOS_FOLDER/config/app.toml
-sed -i -e "s/^snapshot-keep-recent *=.*/snapshot-keep-recent = \"2\"/" $HOME/$ORDOS_FOLDER/config/app.toml
+sed -i -e "s/^snapshot-interval *=.*/snapshot-interval = \"2000\"/" $HOME/$ORDOS_FOLDER/config/app.toml
+sed -i -e "s/^snapshot-keep-recent *=.*/snapshot-keep-recent = \"5\"/" $HOME/$ORDOS_FOLDER/config/app.toml
 
 # Enable state sync
 $ORDOS tendermint unsafe-reset-all --home $HOME/$ORDOS_FOLDER
