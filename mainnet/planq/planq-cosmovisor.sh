@@ -12,13 +12,14 @@ echo "▒ ▒▓▒ ▒ ░▒▒ ░ ░▓ ░░ ▒░▓  ░░ ▒░   �
 echo "░ ░▒  ░ ░░░   ░▒ ░░ ░ ▒  ░░  ░      ░░ ░░   ░ ▒░  ▒ ░ ░   ░    ░ ";
 echo "░  ░  ░   ░    ░    ░ ░   ░      ░      ░   ░ ░   ░   ░ ░        ";
 echo "      ░   ░    ░      ░  ░       ░            ░     ░          ░ ";
-echo "   Auto Installer planq_7070-2 mainnet For PLANQ NETWORK v1.0.3  ";
+echo "Auto Installer planq_7070-2 {cosmovisor} For PLANQ NETWORK v1.0.3";
 echo -e "\e[0m"
 sleep 1
 
 # Variable
 PLANQ_WALLET=wallet
 PLANQ=planqd
+BINARY=cosmovisor
 PLANQ_ID=planq_7070-2
 PLANQ_FOLDER=.planqd
 PLANQ_VER=v1.0.3
@@ -30,6 +31,7 @@ PLANQ_PORT=18
 
 echo "export PLANQ_WALLET=${PLANQ_WALLET}" >> $HOME/.bash_profile
 echo "export PLANQ=${PLANQ}" >> $HOME/.bash_profile
+echo "export BINARY=${BINARY}" >> $HOME/.bash_profile
 echo "export PLANQ_ID=${PLANQ_ID}" >> $HOME/.bash_profile
 echo "export PLANQ_FOLDER=${PLANQ_FOLDER}" >> $HOME/.bash_profile
 echo "export PLANQ_VER=${PLANQ_VER}" >> $HOME/.bash_profile
@@ -75,7 +77,15 @@ git clone $PLANQ_REPO
 cd planq
 git checkout $PLANQ_VER
 make install
-sudo mv $HOME/go/bin/$PLANQ /usr/bin/
+go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@latest
+
+# Prepare binaries for Cosmovisor
+mkdir -p $HOME/$PLANQ_FOLDER/$BINARY/genesis/bin
+mv $HOME/go/bin/$PLANQ $HOME/$PLANQ_FOLDER/$BINARY/genesis/bin/
+
+# Create application symlinks
+ln -s $HOME/$PLANQ_FOLDER/$BINARY/genesis $HOME/$PLANQ_FOLDER/$BINARY/current
+sudo ln -s $HOME/$PLANQ_FOLDER/$BINARY/current/bin/$PLANQ /usr/bin/$PLANQ
 
 # Init generation
 $PLANQ config chain-id $PLANQ_ID
@@ -87,7 +97,7 @@ $PLANQ init $PLANQ_NODENAME --chain-id $PLANQ_ID
 PEERS="b611a4058ac5caf8b56c1012c695afc75aea4217@peers-planq.sxlzptprjkt.xyz:18656"
 SEEDS="5966b4ef17da12ee63ef30e50512ad41d541195c@seeds-planq.sxlzptprjkt.xyz:18656"
 sed -i -e "s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/$PLANQ_FOLDER/config/config.toml
-sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|" $HOME/$PLANQ_FOLDER/config/config.toml
+sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|" $HOME/$PLANQ_FOLDER/config/config.tom
 
 # Download genesis and addrbook
 curl -Ls $PLANQ_GENESIS > $HOME/$PLANQ_FOLDER/config/genesis.json
@@ -118,17 +128,20 @@ SNAP_NAME=$(curl -s https://snapshots.nodestake.top/planq/ | egrep -o ">20.*\.ta
 curl -o - -L https://snapshots.nodestake.top/planq/${SNAP_NAME}  | lz4 -c -d - | tar -x -C $HOME/$PLANQ_FOLDER
 
 # Create Service
-sudo tee /etc/systemd/system/$PLANQ.service > /dev/null <<EOF
+sudo tee /etc/systemd/system/$PLANQ.service > /dev/null << EOF
 [Unit]
-Description=$PLANQ
+Description=$BINARY
 After=network-online.target
 
 [Service]
 User=$USER
-ExecStart=$(which $PLANQ) start --home $HOME/$PLANQ_FOLDER
+ExecStart=$(which $BINARY) run start
 Restart=on-failure
-RestartSec=3
-LimitNOFILE=4096
+RestartSec=10
+LimitNOFILE=65535
+Environment="DAEMON_HOME=$HOME/$PLANQ_FOLDER"
+Environment="DAEMON_NAME=$PLANQ"
+Environment="UNSAFE_SKIP_BACKUP=true"
 
 [Install]
 WantedBy=multi-user.target
@@ -141,8 +154,9 @@ sudo systemctl start $PLANQ
 
 echo -e "\e[1m\e[31mSETUP FINISHED\e[0m"
 echo ""
-echo -e "CHECK RUNNING LOGS : \e[1m\e[31mjournalctl -fu $PLANQ -o cat\e[0m"
-echo -e "CHECK LOCAL STATUS : \e[1m\e[31mcurl -s localhost:${PLANQ_PORT}657/status | jq .result.sync_info\e[0m"
+echo -e "CHECK STATUS BINARY : \e[1m\e[31msystemctl status $PLANQ\e[0m"
+echo -e "CHECK RUNNING LOGS  : \e[1m\e[31mjournalctl -fu $PLANQ -o cat\e[0m"
+echo -e "CHECK LOCAL STATUS  : \e[1m\e[31mcurl -s localhost:${PLANQ_PORT}657/status | jq .result.sync_info\e[0m"
 echo ""
 
 # End
