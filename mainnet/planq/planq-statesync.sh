@@ -12,7 +12,7 @@ echo "▒ ▒▓▒ ▒ ░▒▒ ░ ░▓ ░░ ▒░▓  ░░ ▒░   �
 echo "░ ░▒  ░ ░░░   ░▒ ░░ ░ ▒  ░░  ░      ░░ ░░   ░ ▒░  ▒ ░ ░   ░    ░ ";
 echo "░  ░  ░   ░    ░    ░ ░   ░      ░      ░   ░ ░   ░   ░ ░        ";
 echo "      ░   ░    ░      ░  ░       ░            ░     ░          ░ ";
-echo "   Auto Installer planq_7070-2 mainnet For PLANQ NETWORK v1.0.3  ";
+echo "   Auto Installer planq_7070-2 mainnet For PLANQ NETWORK v1.0.4  ";
 echo -e "\e[0m"
 sleep 1
 
@@ -21,7 +21,7 @@ PLANQ_WALLET=wallet
 PLANQ=planqd
 PLANQ_ID=planq_7070-2
 PLANQ_FOLDER=.planqd
-PLANQ_VER=v1.0.3
+PLANQ_VER=v1.0.4
 PLANQ_REPO=https://github.com/planq-network/planq
 PLANQ_DENOM=aplanq
 PLANQ_PORT=18
@@ -54,7 +54,7 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install make build-essential gcc git jq chrony lz4 -y
 
 # Install GO
-ver="1.18.2"
+ver="1.19.5"
 cd $HOME
 wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
 sudo rm -rf /usr/local/go
