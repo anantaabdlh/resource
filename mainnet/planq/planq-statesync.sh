@@ -12,7 +12,7 @@ echo "▒ ▒▓▒ ▒ ░▒▒ ░ ░▓ ░░ ▒░▓  ░░ ▒░   �
 echo "░ ░▒  ░ ░░░   ░▒ ░░ ░ ▒  ░░  ░      ░░ ░░   ░ ▒░  ▒ ░ ░   ░    ░ ";
 echo "░  ░  ░   ░    ░    ░ ░   ░      ░      ░   ░ ░   ░   ░ ░        ";
 echo "      ░   ░    ░      ░  ░       ░            ░     ░          ░ ";
-echo "   Auto Installer planq_7070-2 mainnet For PLANQ NETWORK v1.0.4  ";
+echo "   Auto Installer planq_7070-2 mainnet For PLANQ NETWORK v1.0.5  ";
 echo -e "\e[0m"
 sleep 1
 
@@ -21,7 +21,7 @@ PLANQ_WALLET=wallet
 PLANQ=planqd
 PLANQ_ID=planq_7070-2
 PLANQ_FOLDER=.planqd
-PLANQ_VER=v1.0.4
+PLANQ_VER=v1.0.5
 PLANQ_REPO=https://github.com/planq-network/planq
 PLANQ_DENOM=aplanq
 PLANQ_PORT=18

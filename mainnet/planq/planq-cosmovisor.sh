@@ -12,7 +12,7 @@ echo "▒ ▒▓▒ ▒ ░▒▒ ░ ░▓ ░░ ▒░▓  ░░ ▒░   �
 echo "░ ░▒  ░ ░░░   ░▒ ░░ ░ ▒  ░░  ░      ░░ ░░   ░ ▒░  ▒ ░ ░   ░    ░ ";
 echo "░  ░  ░   ░    ░    ░ ░   ░      ░      ░   ░ ░   ░   ░ ░        ";
 echo "      ░   ░    ░      ░  ░       ░            ░     ░          ░ ";
-echo "Auto Installer planq_7070-2 {cosmovisor} For PLANQ NETWORK v1.0.4";
+echo "Auto Installer planq_7070-2 {cosmovisor} For PLANQ NETWORK v1.0.5";
 echo -e "\e[0m"
 sleep 1
 
@@ -22,7 +22,7 @@ PLANQ=planqd
 BINARY=cosmovisor
 PLANQ_ID=planq_7070-2
 PLANQ_FOLDER=.planqd
-PLANQ_VER=v1.0.4
+PLANQ_VER=v1.0.5
 PLANQ_REPO=https://github.com/planq-network/planq
 PLANQ_GENESIS=https://snapshot.sxlzptprjkt.xyz/planq/genesis.json
 PLANQ_ADDRBOOK=https://snapshot.sxlzptprjkt.xyz/planq/addrbook.json
