@@ -65,6 +65,15 @@ echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
 source ~/.bash_profile
 go version
 
+# Get testnet version of sao
+cd $HOME
+rm -rf sao-consensus
+git clone $SAO_REPO
+cd sao-consensus
+git checkout $SAO_VER
+make install
+sudo mv $HOME/go/bin/$SAO /usr/bin/
+
 # Init generation
 $SAO config chain-id $SAO_ID
 $SAO config keyring-backend file
