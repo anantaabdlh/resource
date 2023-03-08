@@ -1,14 +1,13 @@
 #!/bin/bash
-PROMETHEUS_CHECKSUM="3f558531c6a575d8372b576b7e76578a98e2744da6b89982ea7021b6f000cddd"
+PROMETHEUS_CHECKSUM="422dab055ed9c7bcaff52b718705f9192c6fac0de6b7e78dd278e70ee2663dcc"
 PROMETHEUS_USER="prometheus"
-PROMETHEUS_VERSION="2.36.2"
+PROMETHEUS_VERSION="2.42.0"
 PROMETHEUS_ARCH="linux-amd64"
 PROMETHEUS_URL="https://github.com/prometheus/prometheus/releases/download/"
 
 
 OPTIONS=$1
 MONITORING=$2
-
 
 
 function help(){
