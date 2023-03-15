@@ -12,40 +12,35 @@ echo "▒ ▒▓▒ ▒ ░▒▒ ░ ░▓ ░░ ▒░▓  ░░ ▒░   �
 echo "░ ░▒  ░ ░░░   ░▒ ░░ ░ ▒  ░░  ░      ░░ ░░   ░ ▒░  ▒ ░ ░   ░    ░ ";
 echo "░  ░  ░   ░    ░    ░ ░   ░      ░      ░   ░ ░   ░   ░ ░        ";
 echo "      ░   ░    ░      ░  ░       ░            ░     ░          ░ ";
-echo "       Auto Installer sao-testnet0 For SAO NETWORK testnet0      ";
+echo "        Auto Installer sao-testnet1 For SAO NETWORK v0.1.3       ";
 echo -e "\e[0m"
 sleep 1
 
 # Variable
 SAO_WALLET=wallet
 SAO=saod
-BINARY=cosmovisor
-SAO_ID=sao-testnet0
+SAO_ID=sao-testnet1
 SAO_FOLDER=.sao
-SAO_VER=testnet0
+SAO_VER=v0.1.3
 SAO_REPO=https://github.com/SaoNetwork/sao-consensus
-SAO_GENESIS=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/testnet/sao/genesis.json
-SAO_ADDRBOOK=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/testnet/sao/addrbook.json
 SAO_DENOM=sao
 SAO_PORT=27
 
+
 echo "export SAO_WALLET=${SAO_WALLET}" >> $HOME/.bash_profile
 echo "export SAO=${SAO}" >> $HOME/.bash_profile
-echo "export BINARY=${BINARY}" >> $HOME/.bash_profile
 echo "export SAO_ID=${SAO_ID}" >> $HOME/.bash_profile
 echo "export SAO_FOLDER=${SAO_FOLDER}" >> $HOME/.bash_profile
 echo "export SAO_VER=${SAO_VER}" >> $HOME/.bash_profile
 echo "export SAO_REPO=${SAO_REPO}" >> $HOME/.bash_profile
-echo "export SAO_GENESIS=${SAO_GENESIS}" >> $HOME/.bash_profile
-echo "export SAO_ADDRBOOK=${SAO_ADDRBOOK}" >> $HOME/.bash_profile
 echo "export SAO_DENOM=${SAO_DENOM}" >> $HOME/.bash_profile
 echo "export SAO_PORT=${SAO_PORT}" >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
 # Set Vars
 if [ ! $SAO_NODENAME ]; then
-	read -p "sxlzptprjkt@w00t666w00t:~# [ENTER YOUR NODE] > " SAO_NODENAME
-	echo 'export SAO_NODENAME='$SAO_NODENAME >> $HOME/.bash_profile
+        read -p "sxlzptprjkt@w00t666w00t:~# [ENTER YOUR NODE] > " SAO_NODENAME
+        echo 'export SAO_NODENAME='$SAO_NODENAME >> $HOME/.bash_profile
 fi
 echo ""
 echo -e "YOUR NODE NAME : \e[1m\e[31m$SAO_NODENAME\e[0m"
@@ -77,31 +72,22 @@ git clone $SAO_REPO
 cd sao-consensus
 git checkout $SAO_VER
 make install
-go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.4.0
-
-# Prepare binaries for Cosmovisor
-mkdir -p $HOME/$SAO_FOLDER/$BINARY/genesis/bin
-mv $HOME/go/bin/$SAO $HOME/$SAO_FOLDER/$BINARY/genesis/bin/
-
-# Create application symlinks
-ln -s $HOME/$SAO_FOLDER/$BINARY/genesis $HOME/$SAO_FOLDER/$BINARY/current
-sudo ln -s $HOME/$SAO_FOLDER/$BINARY/current/bin/$SAO /usr/bin/$SAO
+sudo mv $HOME/go/bin/$SAO /usr/bin/
 
 # Init generation
 $SAO config chain-id $SAO_ID
-$SAO config keyring-backend test
+$SAO config keyring-backend file
 $SAO config node tcp://localhost:${SAO_PORT}657
 $SAO init $SAO_NODENAME --chain-id $SAO_ID
 
 # Set peers and seeds
-PEERS="2aad459c0dd3a81b1d5eb297986c8d8309ad20e3@peers-sao.sxlzptprjkt.xyz:27656"
+PEERS="a5261e9fba12d7a59cd1d4515a449e705734c39b@peers-sao.sxlzptprjkt.xyz:27656"
 SEEDS=""
 sed -i -e "s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/$SAO_FOLDER/config/config.toml
 sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|" $HOME/$SAO_FOLDER/config/config.toml
 
-# Download genesis and addrbook
-curl -Ls $SAO_GENESIS > $HOME/$SAO_FOLDER/config/genesis.json
-curl -Ls $SAO_ADDRBOOK > $HOME/$SAO_FOLDER/config/addrbook.json
+# Create file genesis.json
+touch $HOME/$SAO_FOLDER/config/genesis.json
 
 # Set Port
 sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:${SAO_PORT}658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:${SAO_PORT}657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:${SAO_PORT}060\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:${SAO_PORT}656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":${SAO_PORT}660\"%" $HOME/$SAO_FOLDER/config/config.toml
@@ -120,28 +106,40 @@ sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $
 # Set minimum gas price
 sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.0025$SAO_DENOM\"/" $HOME/$SAO_FOLDER/config/app.toml
 
-# Enable snapshots
+# Set config snapshot
 sed -i -e "s/^snapshot-interval *=.*/snapshot-interval = \"2000\"/" $HOME/$SAO_FOLDER/config/app.toml
 sed -i -e "s/^snapshot-keep-recent *=.*/snapshot-keep-recent = \"5\"/" $HOME/$SAO_FOLDER/config/app.toml
-$SAO tendermint unsafe-reset-all --home $HOME/$SAO_FOLDER --keep-addr-book
-SNAP_NAME=$(curl -s https://ss-t.sao.nodestake.top/ | egrep -o ">20.*\.tar.lz4" | tr -d ">")
-curl -o - -L https://ss-t.sao.nodestake.top/${SNAP_NAME}  | lz4 -c -d - | tar -x -C $HOME/$SAO_FOLDER
+
+# Enable state sync
+$SAO tendermint unsafe-reset-all --home $HOME/$SAO_FOLDER
+
+SNAP_RPC="https://rpc-sao.sxlzptprjkt.xyz:443"
+
+LATEST_HEIGHT=$(curl -s $SNAP_RPC/block | jq -r .result.block.header.height); \
+BLOCK_HEIGHT=$((LATEST_HEIGHT - 2000)); \
+TRUST_HASH=$(curl -s "$SNAP_RPC/block?height=$BLOCK_HEIGHT" | jq -r .result.block_id.hash)
+
+echo ""
+echo -e "\e[1m\e[31m[!]\e[0m HEIGHT : \e[1m\e[31m$LATEST_HEIGHT\e[0m BLOCK : \e[1m\e[31m$BLOCK_HEIGHT\e[0m HASH : \e[1m\e[31m$TRUST_HASH\e[0m"
+echo ""
+
+sed -i.bak -E "s|^(enable[[:space:]]+=[[:space:]]+).*$|\1true| ; \
+s|^(rpc_servers[[:space:]]+=[[:space:]]+).*$|\1\"$SNAP_RPC,$SNAP_RPC\"| ; \
+s|^(trust_height[[:space:]]+=[[:space:]]+).*$|\1$BLOCK_HEIGHT| ; \
+s|^(trust_hash[[:space:]]+=[[:space:]]+).*$|\1\"$TRUST_HASH\"|" $HOME/$SAO_FOLDER/config/config.toml
 
 # Create Service
-sudo tee /etc/systemd/system/$SAO.service > /dev/null << EOF
+sudo tee /etc/systemd/system/$SAO.service > /dev/null <<EOF
 [Unit]
-Description=$BINARY
+Description=$SAO
 After=network-online.target
 
 [Service]
 User=$USER
-ExecStart=$(which $BINARY) run start
+ExecStart=$(which $SAO) start
 Restart=on-failure
-RestartSec=10
-LimitNOFILE=65535
-Environment="DAEMON_HOME=$HOME/$SAO_FOLDER"
-Environment="DAEMON_NAME=$SAO"
-Environment="UNSAFE_SKIP_BACKUP=true"
+RestartSec=3
+LimitNOFILE=4096
 
 [Install]
 WantedBy=multi-user.target
@@ -154,9 +152,8 @@ sudo systemctl start $SAO
 
 echo -e "\e[1m\e[31mSETUP FINISHED\e[0m"
 echo ""
-echo -e "CHECK STATUS BINARY : \e[1m\e[31msystemctl status $SAO\e[0m"
-echo -e "CHECK RUNNING LOGS  : \e[1m\e[31mjournalctl -fu $SAO -o cat\e[0m"
-echo -e "CHECK LOCAL STATUS  : \e[1m\e[31mcurl -s localhost:${SAO_PORT}657/status | jq .result.sync_info\e[0m"
+echo -e "CHECK RUNNING LOGS : \e[1m\e[31mjournalctl -fu $SAO -o cat\e[0m"
+echo -e "CHECK LOCAL STATUS : \e[1m\e[31mcurl -s localhost:${SAO_PORT}657/status | jq .result.sync_info\e[0m"
 echo ""
 
 # End

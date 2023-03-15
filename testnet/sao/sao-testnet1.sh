@@ -12,16 +12,16 @@ echo "▒ ▒▓▒ ▒ ░▒▒ ░ ░▓ ░░ ▒░▓  ░░ ▒░   �
 echo "░ ░▒  ░ ░░░   ░▒ ░░ ░ ▒  ░░  ░      ░░ ░░   ░ ▒░  ▒ ░ ░   ░    ░ ";
 echo "░  ░  ░   ░    ░    ░ ░   ░      ░      ░   ░ ░   ░   ░ ░        ";
 echo "      ░   ░    ░      ░  ░       ░            ░     ░          ░ ";
-echo "       Auto Installer sao-testnet0 For SAO NETWORK testnet0      ";
+echo "        Auto Installer sao-testnet1 For SAO NETWORK v0.1.3       ";
 echo -e "\e[0m"
 sleep 1
 
 # Variable
 SAO_WALLET=wallet
 SAO=saod
-SAO_ID=sao-testnet0
+SAO_ID=sao-testnet1
 SAO_FOLDER=.sao
-SAO_VER=testnet0
+SAO_VER=v0.1.3
 SAO_REPO=https://github.com/SaoNetwork/sao-consensus
 SAO_GENESIS=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/testnet/sao/genesis.json
 SAO_ADDRBOOK=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/testnet/sao/addrbook.json
@@ -84,7 +84,7 @@ $SAO config node tcp://localhost:${SAO_PORT}657
 $SAO init $SAO_NODENAME --chain-id $SAO_ID
 
 # Set peers and seeds
-PEERS="2aad459c0dd3a81b1d5eb297986c8d8309ad20e3@peers-sao.sxlzptprjkt.xyz:27656"
+PEERS="a5261e9fba12d7a59cd1d4515a449e705734c39b@peers-sao.sxlzptprjkt.xyz:27656"
 SEEDS=""
 sed -i -e "s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/$SAO_FOLDER/config/config.toml
 sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|" $HOME/$SAO_FOLDER/config/config.toml
@@ -108,14 +108,13 @@ sed -i -e "s/^pruning-keep-every *=.*/pruning-keep-every = \"$pruning_keep_every
 sed -i -e "s/^pruning-interval *=.*/pruning-interval = \"$pruning_interval\"/" $HOME/$SAO_FOLDER/config/app.toml
 
 # Set minimum gas price
-sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.0025$SAO_DENOM\"/" $HOME/$SAO_FOLDER/config/app.toml
+sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.0001$SAO_DENOM\"/" $HOME/$SAO_FOLDER/config/app.toml
 
 # Enable snapshots
 sed -i -e "s/^snapshot-interval *=.*/snapshot-interval = \"2000\"/" $HOME/$SAO_FOLDER/config/app.toml
 sed -i -e "s/^snapshot-keep-recent *=.*/snapshot-keep-recent = \"5\"/" $HOME/$SAO_FOLDER/config/app.toml
 $SAO tendermint unsafe-reset-all --home $HOME/$SAO_FOLDER --keep-addr-book
-SNAP_NAME=$(curl -s https://ss-t.sao.nodestake.top/ | egrep -o ">20.*\.tar.lz4" | tr -d ">")
-curl -o - -L https://ss-t.sao.nodestake.top/${SNAP_NAME}  | lz4 -c -d - | tar -x -C $HOME/$SAO_FOLDER
+curl -L http://snapcrot.hexskrt.net/sao/sao.latest.tar.lz4 | tar -Ilz4 -xf - -C $HOME/$SAO_FOLDER
 
 # Create Service
 sudo tee /etc/systemd/system/$SAO.service > /dev/null <<EOF
