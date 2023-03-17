@@ -12,7 +12,7 @@ echo "▒ ▒▓▒ ▒ ░▒▒ ░ ░▓ ░░ ▒░▓  ░░ ▒░   �
 echo "░ ░▒  ░ ░░░   ░▒ ░░ ░ ▒  ░░  ░      ░░ ░░   ░ ▒░  ▒ ░ ░   ░    ░ ";
 echo "░  ░  ░   ░    ░    ░ ░   ░      ░      ░   ░ ░   ░   ░ ░        ";
 echo "      ░   ░    ░      ░  ░       ░            ░     ░          ░ ";
-echo "       Auto Installer osmosis-1 mainnet For OSMOSIS v14.0.0      ";
+echo "       Auto Installer osmosis-1 mainnet For OSMOSIS v15.0.0      ";
 echo -e "\e[0m"
 sleep 1
 
@@ -21,7 +21,7 @@ OSMO_WALLET=wallet
 OSMO=osmosisd
 OSMO_ID=osmosis-1
 OSMO_FOLDER=.osmosisd
-OSMO_VER=v14.0.0
+OSMO_VER=v15.0.0
 OSMO_REPO=https://github.com/osmosis-labs/osmosis
 OSMO_GENESIS=https://snapshots.kjnodes.com/osmosis/genesis.json
 OSMO_ADDRBOOK=https://snapshots.kjnodes.com/osmosis/addrbook.json
