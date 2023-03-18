@@ -24,8 +24,8 @@ TESTCORE_FOLDER=.core
 TESTCORE_VER=v0.1.1
 TESTCORE_BINARY=https://github.com/CoreumFoundation/coreum/releases/download
 TESTCORE_BIN=cored-linux-amd64
-TESTCORE_GENESIS=https://snap.nodexcapital.com/coreum/genesis.json
-TESTCORE_ADDRBOOK=https://snap.nodexcapital.com/coreum/addrbook.json
+TESTCORE_GENESIS=https://raw.githubusercontent.com/CoreumFoundation/coreum/master/genesis/coreum-testnet-1.json
+TESTCORE_ADDRBOOK=
 TESTCORE_DENOM=utestcore
 TESTCORE_PORT=21
 
@@ -88,7 +88,7 @@ sudo systemctl enable $TESTCORE
 
 # Init generation
 $TESTCORE config chain-id $TESTCORE_ID
-$TESTCORE config keyring-backend file
+$TESTCORE config keyring-backend test
 $TESTCORE config node tcp://localhost:${TESTCORE_PORT}657
 $TESTCORE init $TESTCORE_NODENAME --chain-id $TESTCORE_ID
 

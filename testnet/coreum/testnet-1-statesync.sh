@@ -84,7 +84,7 @@ sudo systemctl enable $TESTCORE
 
 # Init generation
 $TESTCORE config chain-id $TESTCORE_ID
-$TESTCORE config keyring-backend file
+$TESTCORE config keyring-backend test
 $TESTCORE config node tcp://localhost:${TESTCORE_PORT}657
 $TESTCORE init $TESTCORE_NODENAME --chain-id $TESTCORE_ID
 

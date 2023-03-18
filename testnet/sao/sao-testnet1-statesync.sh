@@ -113,7 +113,7 @@ sed -i -e "s/^snapshot-keep-recent *=.*/snapshot-keep-recent = \"5\"/" $HOME/$SA
 # Enable state sync
 $SAO tendermint unsafe-reset-all --home $HOME/$SAO_FOLDER
 
-SNAP_RPC="https://rpc-sao.sxlzptprjkt.xyz:443"
+SNAP_RPC="https://rpc-coreum-testnet.sxlzptprjkt.xyz:443"
 
 LATEST_HEIGHT=$(curl -s $SNAP_RPC/block | jq -r .result.block.header.height); \
 BLOCK_HEIGHT=$((LATEST_HEIGHT - 2000)); \
