@@ -25,8 +25,8 @@ TESTCORE_FOLDER=.core
 TESTCORE_VER=v0.1.1
 TESTCORE_BINARY=https://github.com/CoreumFoundation/coreum/releases/download
 TESTCORE_BIN=cored-linux-amd64
-TESTCORE_GENESIS=https://raw.githubusercontent.com/CoreumFoundation/coreum/master/genesis/coreum-testnet-1.json
-TESTCORE_ADDRBOOK=
+TESTCORE_GENESIS=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/testnet/coreum/genesis.json
+TESTCORE_ADDRBOOK=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/testnet/coreum/addrbook.json
 TESTCORE_DENOM=utestcore
 TESTCORE_PORT=21
 
