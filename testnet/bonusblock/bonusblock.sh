@@ -71,7 +71,7 @@ go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.4.0
 
 # Prepare binaries for Cosmovisor
 mkdir -p $HOME/$BONUS_FOLDER/$BINARY/genesis/bin
-mv build/$BONUS $HOME/$BONUS_FOLDER/$BINARY/genesis/bin/
+mv build/BonusBlock-chain $HOME/$BONUS_FOLDER/$BINARY/genesis/bin/
 
 # Create application symlinks
 ln -s $HOME/$BONUS_FOLDER/$BINARY/genesis $HOME/$BONUS_FOLDER/$BINARY/current
