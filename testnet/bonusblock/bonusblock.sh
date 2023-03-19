@@ -16,6 +16,7 @@ BONUS_ID=blocktopia-01
 BONUS_FOLDER=.bonusblock
 BONUS_REPO=https://github.com/BBlockLabs/BonusBlock-chain
 BONUS_GENESIS=https://bonusblock-testnet.alter.network/genesis
+BONUS_ADDRBOOK=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/testnet/bonusblock/addrbook.json
 BONUS_DENOM=ubonus
 BONUS_PORT=18
 
@@ -90,6 +91,7 @@ sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|" $HOME/$BONUS_FOLDER/config/config.
 
 # Download genesis and addrbook
 curl -Ls $BONUS_GENESIS > $HOME/$BONUS_FOLDER/config/genesis.json
+curl -Ls $BONUS_ADDRBOOK > $HOME/$BONUS_FOLDER/config/addrbook.json
 
 # Set Port
 sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:${BONUS_PORT}658\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:${BONUS_PORT}657\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:${BONUS_PORT}060\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:${BONUS_PORT}656\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":${BONUS_PORT}660\"%" $HOME/$BONUS_FOLDER/config/config.toml
