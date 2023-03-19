@@ -65,7 +65,7 @@ go version
 cd $HOME
 rm -rf $BONUS
 git clone $BONUS_REPO
-cd $BONUS
+cd BonusBlock-chain
 make build
 go install cosmossdk.io/tools/cosmovisor/cmd/cosmovisor@v1.4.0
 
