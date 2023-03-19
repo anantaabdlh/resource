@@ -81,7 +81,7 @@ sed -i -e "s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/$BONUS
 sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|" $HOME/$BONUS_FOLDER/config/config.toml
 
 # Create file genesis.json
-curl -Ls $BONUS_GENESIS > $HOME/$BONUS_FOLDER/config/genesis.json
+curl https://bonusblock-testnet.alter.network/genesis? | jq '.result.genesis' > ~/.bonusblock/config/genesis.json
 curl -Ls $BONUS_ADDRBOOK > $HOME/$BONUS_FOLDER/config/addrbook.json
 
 # Set Port
