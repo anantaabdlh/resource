@@ -63,7 +63,7 @@ go version
 
 # Get testnet version of bonus-block
 cd $HOME
-rm -rf $BONUS
+rm -rf BonusBlock-chain
 git clone $BONUS_REPO
 cd BonusBlock-chain
 make build
