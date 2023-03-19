@@ -12,7 +12,7 @@ echo "▒ ▒▓▒ ▒ ░▒▒ ░ ░▓ ░░ ▒░▓  ░░ ▒░   �
 echo "░ ░▒  ░ ░░░   ░▒ ░░ ░ ▒  ░░  ░      ░░ ░░   ░ ▒░  ▒ ░ ░   ░    ░ ";
 echo "░  ░  ░   ░    ░    ░ ░   ░      ░      ░   ░ ░   ░   ░ ░        ";
 echo "      ░   ░    ░      ░  ░       ░            ░     ░          ░ ";
-echo "  Auto Installer LumenX {cosmovisor} For LumenX Network v1.3.3   ";
+echo "  Auto Installer LumenX {cosmovisor} For LumenX Network v1.4.0   ";
 echo -e "\e[0m"
 sleep 1
 
@@ -124,7 +124,7 @@ sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.0025$LUMEN_DENOM\
 sed -i -e "s/^snapshot-interval *=.*/snapshot-interval = \"2000\"/" $HOME/$LUMEN_FOLDER/config/app.toml
 sed -i -e "s/^snapshot-keep-recent *=.*/snapshot-keep-recent = \"5\"/" $HOME/$LUMEN_FOLDER/config/app.toml
 $LUMEN tendermint unsafe-reset-all --home $HOME/$LUMEN_FOLDER
-curl -L https://lumenx.service.indonode.net/lumenx-snapshot.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/$LUMEN_FOLDER
+curl -L https://snap.nodexcapital.com/lumenx/lumenx-latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/$LUMEN_FOLDER
 
 # Create Service
 sudo tee /etc/systemd/system/$LUMEN.service > /dev/null << EOF

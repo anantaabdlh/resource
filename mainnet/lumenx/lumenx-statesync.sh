@@ -12,7 +12,7 @@ echo "▒ ▒▓▒ ▒ ░▒▒ ░ ░▓ ░░ ▒░▓  ░░ ▒░   �
 echo "░ ░▒  ░ ░░░   ░▒ ░░ ░ ▒  ░░  ░      ░░ ░░   ░ ▒░  ▒ ░ ░   ░    ░ ";
 echo "░  ░  ░   ░    ░    ░ ░   ░      ░      ░   ░ ░   ░   ░ ░        ";
 echo "      ░   ░    ░      ░  ░       ░            ░     ░          ░ ";
-echo "         Auto Installer LumenX For LumenX Network v1.3.3         ";
+echo "         Auto Installer LumenX For LumenX Network v1.4.0         ";
 echo -e "\e[0m"
 sleep 1
 
@@ -21,7 +21,7 @@ LUMEN_WALLET=wallet
 LUMEN=lumenxd
 LUMEN_ID=LumenX
 LUMEN_FOLDER=.lumenx
-LUMEN_VER=v1.3.3
+LUMEN_VER=v1.4.0
 LUMEN_REPO=https://github.com/cryptonetD/lumenx.git
 LUMEN_DENOM=ulumen
 LUMEN_PORT=26

@@ -12,7 +12,7 @@ echo "▒ ▒▓▒ ▒ ░▒▒ ░ ░▓ ░░ ▒░▓  ░░ ▒░   �
 echo "░ ░▒  ░ ░░░   ░▒ ░░ ░ ▒  ░░  ░      ░░ ░░   ░ ▒░  ▒ ░ ░   ░    ░ ";
 echo "░  ░  ░   ░    ░    ░ ░   ░      ░      ░   ░ ░   ░   ░ ░        ";
 echo "      ░   ░    ░      ░  ░       ░            ░     ░          ░ ";
-echo "         Auto Installer LumenX For LumenX Network v1.3.3         ";
+echo "         Auto Installer LumenX For LumenX Network v1.4.0         ";
 echo -e "\e[0m"
 sleep 1
 
@@ -21,7 +21,7 @@ LUMEN_WALLET=wallet
 LUMEN=lumenxd
 LUMEN_ID=LumenX
 LUMEN_FOLDER=.lumenx
-LUMEN_VER=v1.3.3
+LUMEN_VER=v1.4.0
 LUMEN_REPO=https://github.com/cryptonetD/lumenx.git
 LUMEN_GENESIS=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/mainnet/lumenx/genesis.json
 LUMEN_ADDRBOOK=https://raw.githubusercontent.com/sxlzptprjkt/resource/master/mainnet/lumenx/addrbook.json
@@ -84,7 +84,7 @@ $LUMEN config node tcp://localhost:${LUMEN_PORT}657
 $LUMEN init $LUMEN_NODENAME --chain-id $LUMEN_ID
 
 # Set peers and seeds
-PEERS="39674b41ec5ffaf275977a147163c544e3fda03a@peers-lumenx.sxlzptprjkt.xyz:26656"
+PEERS="a81c30cb077e33192c68253aa563b3cb6c27f066@peers-lumenx.sxlzptprjkt.xyz:26656"
 SEEDS="ff14d88ffa802336e37632f4deac3eac638a4e95@seeds-lumenx.sxlzptprjkt.xyz:26656"
 sed -i -e "s|^persistent_peers *=.*|persistent_peers = \"$PEERS\"|" $HOME/$LUMEN_FOLDER/config/config.toml
 sed -i -e "s|^seeds *=.*|seeds = \"$SEEDS\"|" $HOME/$LUMEN_FOLDER/config/config.toml
@@ -114,7 +114,7 @@ sed -i -e "s/^minimum-gas-prices *=.*/minimum-gas-prices = \"0.0025$LUMEN_DENOM\
 sed -i -e "s/^snapshot-interval *=.*/snapshot-interval = \"2000\"/" $HOME/$LUMEN_FOLDER/config/app.toml
 sed -i -e "s/^snapshot-keep-recent *=.*/snapshot-keep-recent = \"5\"/" $HOME/$LUMEN_FOLDER/config/app.toml
 $LUMEN tendermint unsafe-reset-all --home $HOME/$LUMEN_FOLDER
-curl -L https://lumenx.service.indonode.net/lumenx-snapshot.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/$LUMEN_FOLDER
+curl -L https://snap.nodexcapital.com/lumenx/lumenx-latest.tar.lz4 | lz4 -dc - | tar -xf - -C $HOME/$LUMEN_FOLDER
 
 # Create Service
 sudo tee /etc/systemd/system/$LUMEN.service > /dev/null <<EOF
