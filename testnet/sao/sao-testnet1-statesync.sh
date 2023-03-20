@@ -1,5 +1,5 @@
 #
-# // Copyright (C) 2022 Salman Wahib (sxlmnwb)
+# // Copyright (C) 2023 Salman Wahib (sxlmnwb)
 #
 
 echo -e "\033[0;31m"
@@ -113,7 +113,7 @@ sed -i -e "s/^snapshot-keep-recent *=.*/snapshot-keep-recent = \"5\"/" $HOME/$SA
 # Enable state sync
 $SAO tendermint unsafe-reset-all --home $HOME/$SAO_FOLDER
 
-SNAP_RPC="https://rpc-coreum-testnet.sxlzptprjkt.xyz:443"
+SNAP_RPC="https://rpc-sao.sxlzptprjkt.xyz:443"
 
 LATEST_HEIGHT=$(curl -s $SNAP_RPC/block | jq -r .result.block.header.height); \
 BLOCK_HEIGHT=$((LATEST_HEIGHT - 2000)); \
