@@ -24,7 +24,7 @@ CORE_ID=coreum-mainnet-1
 CORE_FOLDER=.core
 CORE_VER=v1.0.0
 CORE_BINARY=https://github.com/CoreumFoundation/coreum/releases/download
-CORE_BIN=cored-linux-amd64
+CORE_BIN=cored-linux-arm64
 CORE_GENESIS=https://snap.nodexcapital.com/coreum/genesis.json
 CORE_ADDRBOOK=https://snap.nodexcapital.com/coreum/addrbook.json
 CORE_DENOM=ucore
@@ -64,10 +64,10 @@ sudo apt install curl build-essential jq chrony lz4 -y
 # Install GO
 ver="1.19.5"
 cd $HOME
-wget "https://golang.org/dl/go$ver.linux-amd64.tar.gz"
+wget "https://golang.org/dl/go$ver.linux-arm64.tar.gz"
 sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf "go$ver.linux-amd64.tar.gz"
-rm "go$ver.linux-amd64.tar.gz"
+sudo tar -C /usr/local -xzf "go$ver.linux-arm64.tar.gz"
+rm "go$ver.linux-arm64.tar.gz"
 echo "export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin" >> ~/.bash_profile
 source ~/.bash_profile
 go version
