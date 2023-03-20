@@ -23,7 +23,7 @@ CORE_ID=coreum-testnet-1
 CORE_FOLDER=.core
 CORE_VER=v1.0.0
 CORE_BINARY=https://github.com/CoreumFoundation/coreum/releases/download
-CORE_BIN=cored-linux-amd64
+CORE_BIN=cored-linux-arm64
 CORE_DENOM=ucore
 CORE_PORT=29
 
