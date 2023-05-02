@@ -24,8 +24,8 @@ PLANQ_ID=planq_7070-2
 PLANQ_FOLDER=.planqd
 PLANQ_VER=v1.0.5
 PLANQ_REPO=https://github.com/planq-network/planq
-PLANQ_GENESIS=https://snapshot.sxlzptprjkt.xyz/planq/genesis.json
-PLANQ_ADDRBOOK=https://snapshot.sxlzptprjkt.xyz/planq/addrbook.json
+PLANQ_GENESIS=https://snapshots.nodestake.top/planq/genesis.json
+PLANQ_ADDRBOOK=https://snapshots.nodestake.top/planq/Addrbook.json
 PLANQ_DENOM=aplanq
 PLANQ_PORT=18
 
